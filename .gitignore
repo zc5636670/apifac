@@ -1,0 +1,5 @@
+# Virtual environment
+.pytest_cache/
+.vscode/
+*.pyc
+.idea
