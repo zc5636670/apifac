@@ -41,7 +41,6 @@ class MethodClient(object):
 
     def __call__(self, params={}, data={}):
         try:
-            print(self.url)
             result = self._request(params=params, json=data)
             if not result.status_code == 200:
                 raise ApiFacError(result.content, result.status_code)

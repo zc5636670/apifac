@@ -4,6 +4,7 @@ import os
 from flask import jsonify
 from flask import Flask
 from flask import request
+from flask import current_app
 
 __all__ = ['GetServer', 'PostServer', 'ApiServer']
 
@@ -26,7 +27,7 @@ class RequestMethod(object):
             if isinstance(content, dict) or isinstance(content, list):
                 return jsonify(content), 200
         except Exception as e:
-            result = 'error'
+            result = str(e)
             return jsonify(dict(err_msg=result)), 500
 
 
@@ -67,7 +68,6 @@ class ApiServer(object, metaclass=ApiServerMeta):
                                   view_func=v.response,
                                   endpoint="%s.%s" % (self.name, k),
                                   methods=[v.method_type])
-            print(os.path.join('/', self.url_prefix, v.url_rule))
 
     def export_json(self):
         pass
@@ -85,6 +85,10 @@ def hello_word():
 def post_data():
     data = request.json.get('html', '')
     return {}
+
+
+def routes():
+    pass
 
 
 class ApiTestServer(ApiServer):
