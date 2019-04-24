@@ -64,7 +64,7 @@ class ApiServer(object, metaclass=ApiServerMeta):
 
     def init_urls(self):
         for k, v in self.urls.items():
-            self.app.add_url_rule(os.path.join('/', self.url_prefix, v.url_rule),
+            self.app.add_url_rule(os.path.join('/', self.url_prefix, self.name, v.url_rule),
                                   view_func=v.response,
                                   endpoint="%s.%s" % (self.name, k),
                                   methods=[v.method_type])
