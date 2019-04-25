@@ -62,7 +62,7 @@ class ApiServer(object, metaclass=ApiServerMeta):
         self.url_prefix = url_prefix
         self.app = Flask(flask_name)
         self.csrf = CSRFProtect()
-        self.csrf.init_app(app)
+        self.csrf.init_app(self.app)
         self.init_urls()
 
     def init_urls(self):
