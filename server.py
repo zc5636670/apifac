@@ -5,6 +5,7 @@ from flask import jsonify
 from flask import Flask
 from flask import request
 from flask import current_app
+from flask_wtf.csrf import CSRFProtect
 
 __all__ = ['GetServer', 'PostServer', 'ApiServer']
 
@@ -60,6 +61,8 @@ class ApiServer(object, metaclass=ApiServerMeta):
         self.name = name
         self.url_prefix = url_prefix
         self.app = Flask(flask_name)
+        self.csrf = CSRFProtect()
+        self.csrf.init_app(app)
         self.init_urls()
 
     def init_urls(self):
@@ -68,6 +71,9 @@ class ApiServer(object, metaclass=ApiServerMeta):
                                   view_func=v.response,
                                   endpoint="%s.%s" % (self.name, k),
                                   methods=[v.method_type])
+        for v in self.app.view_functions.values():
+            if v.__module__.split('.')[1] == 'api':
+                self.csrf.exempt(v)
 
     def export_json(self):
         pass
