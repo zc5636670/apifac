@@ -4,8 +4,8 @@ import os
 from flask import jsonify
 from flask import Flask
 from flask import request
-from flask import current_app
 from flask_wtf.csrf import CSRFProtect
+from flask_cors import CORS
 
 __all__ = ['GetServer', 'PostServer', 'ApiServer']
 
@@ -74,6 +74,7 @@ class ApiServer(object, metaclass=ApiServerMeta):
         for v in self.app.view_functions.values():
             if v.__module__.split('.')[1] == 'api':
                 self.csrf.exempt(v)
+        CORS(self.app, resources=r'/api/*')
 
     def export_json(self):
         pass
